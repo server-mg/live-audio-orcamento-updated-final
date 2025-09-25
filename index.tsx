@@ -434,6 +434,7 @@ Emite memory_update se detectar novo padrão (ex.: arredondamento para múltiplo
 
             if (parts) {
               for (const part of parts) {
+                // Process audio content if present
                 if (part.inlineData) {
                   const audio = part.inlineData;
                   this.nextStartTime = Math.max(
@@ -458,7 +459,10 @@ Emite memory_update se detectar novo padrão (ex.: arredondamento para múltiplo
                   this.nextStartTime =
                     this.nextStartTime + audioBuffer.duration;
                   this.sources.add(source);
-                } else if (part.text) {
+                }
+                
+                // Process text content if present (independent of audio)
+                if (part.text) {
                   // PIPELINE APRIMORADO - usar novo sistema de processamento
                   this.processAIResponse(part.text);
                 }
