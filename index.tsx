@@ -151,6 +151,59 @@ export class GdmLiveAudio extends LitElement {
       box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.5); /* blue-500 */
     }
 
+    .ai-response-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 600px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      color: white;
+      z-index: 100;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .ai-response-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #60a5fa; /* blue-400 */
+    }
+
+    .clear-response-btn {
+      background: none;
+      border: none;
+      color: #ef4444; /* red-500 */
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .clear-response-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .ai-response-content {
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
     .printable-area[data-template='classico'] {
       font-family: serif;
     }
@@ -433,8 +486,12 @@ Emite memory_update se detectar novo padrão (ex.: arredondamento para múltiplo
             const parts = message.serverContent?.modelTurn?.parts;
 
             if (parts) {
+              console.log('Received message parts:', parts.length);
+              
               for (const part of parts) {
+                // Log the type of content received for debugging
                 if (part.inlineData) {
+                  console.log('Processing audio content:', part.inlineData.mimeType || 'unknown mime type');
                   const audio = part.inlineData;
                   this.nextStartTime = Math.max(
                     this.nextStartTime,
@@ -459,8 +516,11 @@ Emite memory_update se detectar novo padrão (ex.: arredondamento para múltiplo
                     this.nextStartTime + audioBuffer.duration;
                   this.sources.add(source);
                 } else if (part.text) {
+                  console.log('Processing text content:', part.text.length, 'characters');
                   // PIPELINE APRIMORADO - usar novo sistema de processamento
                   this.processAIResponse(part.text);
+                } else {
+                  console.warn('Unknown part type received:', Object.keys(part));
                 }
               }
             }
@@ -982,9 +1042,12 @@ Emite memory_update se detectar novo padrão (ex.: arredondamento para múltiplo
       // Analytics: sucesso na extração
       this.editAnalytics.recordFieldEdit('text_extraction_success', null, true);
     } else {
-      // Não conseguiu extrair orçamento: apenas exibir resposta
+      // Não conseguiu extrair orçamento: exibir resposta de texto na interface
       console.log('Resposta em texto livre (sem orçamento):', text);
-      this.updateStatus('Resposta recebida. Continue a conversa para gerar orçamento.');
+      
+      // CORREÇÃO: Armazenar e exibir o texto da resposta para o usuário
+      this.lastResponse = text;
+      this.updateStatus('Resposta da IA recebida. Veja o conteúdo abaixo ou continue a conversa.');
       
       // Analytics: falha na extração
       this.editAnalytics.recordFieldEdit('text_extraction_success', null, false);
@@ -994,6 +1057,11 @@ Emite memory_update se detectar novo padrão (ex.: arredondamento para múltiplo
   private updateError(msg: string) {
     this.error = msg;
     this.status = '';
+  }
+
+  private clearTextResponse() {
+    this.lastResponse = '';
+    this.updateStatus('Resposta limpa. Continue a conversa.');
   }
 
   private discardChanges() {
@@ -1921,6 +1989,25 @@ Emite memory_update se detectar novo padrão (ex.: arredondamento para múltiplo
                 .outputNode=${this.outputNode}></gdm-live-audio-visuals-3d>
 
               <div id="status">${this.error || this.status}</div>
+
+              ${this.lastResponse && !this.showBudgetPreview
+                ? html`
+                    <div class="ai-response-container">
+                      <div class="ai-response-header">
+                        <span>Resposta da IA:</span>
+                        <button 
+                          @click=${this.clearTextResponse}
+                          class="clear-response-btn"
+                          title="Limpar resposta">
+                          ×
+                        </button>
+                      </div>
+                      <div class="ai-response-content">
+                        ${unsafeHTML(this.lastResponse.replace(/\n/g, '<br>'))}
+                      </div>
+                    </div>
+                  `
+                : ''}
 
               <input
                 type="file"
