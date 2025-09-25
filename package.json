@@ -1,0 +1,48 @@
+{
+  "name": "live-audio-orçamento",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sistema inteligente de geração de orçamentos audiovisuais com IA e visualizações 3D",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "dev:https": "vite --https --host",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules/.vite",
+    "check": "node check-system.mjs",
+    "setup": "npm install && node check-system.mjs"
+  },
+  "dependencies": {
+    "@google/genai": "^1.15.0",
+    "@lit/context": "^1.1.5",
+    "@types/webrtc": "^0.0.46",
+    "lit": "^3.3.0",
+    "pdfjs-dist": "^5.4.149",
+    "three": "^0.176.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/three": "^0.176.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "ai",
+    "gemini",
+    "orçamento",
+    "audiovisual",
+    "three.js",
+    "lit-element",
+    "typescript",
+    "vite"
+  ],
+  "author": "MegaSom&Luz",
+  "license": "Apache-2.0"
+}

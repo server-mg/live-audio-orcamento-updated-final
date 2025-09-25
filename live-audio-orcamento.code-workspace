@@ -1,0 +1,112 @@
+{
+  "folders": [
+    {
+      "name": "📱 Live Audio-Orçamento",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "workbench.name": "Live Audio-Orçamento - Sistema Inteligente de Orçamentos",
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#1e40af",
+      "titleBar.activeForeground": "#ffffff",
+      "titleBar.inactiveBackground": "#374151",
+      "titleBar.inactiveForeground": "#9ca3af",
+      "activityBar.background": "#1f2937",
+      "activityBar.foreground": "#ffffff",
+      "statusBar.background": "#1e40af",
+      "statusBar.foreground": "#ffffff",
+      "panel.background": "#111827",
+      "terminal.background": "#111827"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.folders.associations": {
+      "src": "src",
+      "utils": "tools",
+      "hooks": "hook",
+      ".vscode": "vscode"
+    },
+    "material-icon-theme.files.associations": {
+      "*.exr": "image",
+      "*.glsl": "shader",
+      "analyser.ts": "audio",
+      "visual-3d.ts": "3d",
+      "sphere-shader.ts": "shader",
+      "backdrop-shader.ts": "shader",
+      "check-system.mjs": "gear",
+      "metadata.json": "json"
+    },
+    "workbench.editor.customLabels.patterns": {
+      "**/src/utils/editAnalytics.ts": "📊 Analytics",
+      "**/src/hooks/useEditAnalytics.ts": "🎣 Edit Hook",
+      "**/visual-3d.ts": "🎨 3D Visual",
+      "**/analyser.ts": "🔊 Audio Analyser",
+      "**/utils.ts": "🔧 Utilities",
+      "**/index.tsx": "🏠 Main App",
+      "**/*-shader.ts": "🌈 ${capture}.shader",
+      "**/check-system.mjs": "⚙️ System Check",
+      "**/package.json": "📦 Package Config",
+      "**/tsconfig.json": "🔧 TS Config",
+      "**/vite.config.ts": "⚡ Vite Config",
+      "**/.env.local": "🔐 Environment",
+      "**/README.md": "📖 Documentation",
+      "**/STATUS-FINAL.md": "✅ Status Final",
+      "**/SETUP.md": "🛠️ Setup Guide"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-typescript-next",
+      "bradlc.vscode-tailwindcss",
+      "lit-plugin.lit-plugin",
+      "ms-vscode.vscode-json",
+      "esbenp.prettier-vscode",
+      "streetsidesoftware.code-spell-checker",
+      "ms-vscode.vscode-eslint",
+      "github.copilot",
+      "github.copilot-chat",
+      "ms-vscode.vscode-ai-toolkit",
+      "ms-vscode.vscode-speech",
+      "vscode-icons-team.vscode-icons",
+      "pkief.material-icon-theme"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "🚀 Start Development",
+        "type": "npm",
+        "script": "dev",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new"
+        },
+        "problemMatcher": []
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "🎯 Launch Live Audio-Orçamento",
+        "type": "node-terminal",
+        "request": "launch",
+        "command": "npm run dev",
+        "cwd": "${workspaceFolder}",
+        "serverReadyAction": {
+          "pattern": "Local:\\s+(https?://\\S+)",
+          "uriFormat": "%s",
+          "action": "openExternally"
+        }
+      }
+    ]
+  }
+}
